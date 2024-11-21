@@ -3,7 +3,9 @@ package com.openclassrooms.hexagonal.games.screen.login
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.openclassrooms.hexagonal.games.R
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 @Composable
 fun LoginScreen(
@@ -36,10 +39,16 @@ fun LoginScreen(
     var isSignUpMode by remember { mutableStateOf(false) } //gere le mode inscription ou connexion
 
     val context = LocalContext.current
+    //etat de defilement
+    val scrollState = rememberScrollState()
+    //recupere le status du clavier
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,6 +56,7 @@ fun LoginScreen(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth()
+                .verticalScroll(scrollState)
         ) {
             //logo de l'application
             Image(
@@ -78,6 +88,7 @@ fun LoginScreen(
             //bouton se Connecter ou s'inscrire
             Button(
                 onClick = {
+                    keyboardController?.hide() //cache le clavier pour laisser apparaitre les champs d'information
                     if (isSignUpMode) {
                         viewModel.signUp(email, password)
                     } else {
@@ -98,7 +109,7 @@ fun LoginScreen(
                 Text(if (isSignUpMode) "Déjà un compte ? Connectez-vous" else "Pas de compte ? Inscrivez-vous")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(25.dp))
 
             //gestion des différents états de l'interface utilisateur
             when (uiState) {

@@ -1,20 +1,26 @@
 package com.openclassrooms.hexagonal.games.screen.login
 
+import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.openclassrooms.hexagonal.games.R
 
 @Composable
 fun LoginScreen(
@@ -29,6 +35,8 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var isSignUpMode by remember { mutableStateOf(false) } //gere le mode inscription ou connexion
 
+    val context = LocalContext.current
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -40,6 +48,12 @@ fun LoginScreen(
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
+            //logo de l'application
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher),
+                contentDescription = "logo de l'application",
+                modifier = Modifier.size(280.dp)
+            )
             //Email
             TextField(
                 value = email,
@@ -92,13 +106,15 @@ fun LoginScreen(
                 is LoginUiState.Success -> {
                     //si succès, rediriger vers la page d'accueil
                     LaunchedEffect(Unit) {
+                        Toast.makeText(context, "Connexion réussie", Toast.LENGTH_SHORT).show()
                         onLoginSuccess()
                     }
                 }
                 //si error, afficher le message d'erreur
                 is LoginUiState.Error -> {
-                    val errorMessage = (uiState as LoginUiState.Error).message
-                    Text(text = errorMessage)
+                    Text(text = "Vérifiez vos informations ou veuillez vous incrire pour continuer",
+                        color = MaterialTheme.colorScheme.error)
+
                 }
                 else -> Unit
             }

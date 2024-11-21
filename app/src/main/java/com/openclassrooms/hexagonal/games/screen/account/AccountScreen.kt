@@ -1,5 +1,6 @@
 package com.openclassrooms.hexagonal.games.screen.account
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -9,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,9 @@ fun AccountScreen(
     onDeleteSuccess: () -> Unit,
     onBackClick: () -> Unit
 ) {
+
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -72,21 +77,24 @@ fun AccountScreen(
                     Text("Supprimer le compte")
                 }
 
-                //gestion des states
+                //gestion des states et toast message
                 when (accountActionState) {
                     is AccountActionState.LogoutSuccess -> {
                         LaunchedEffect(Unit) {
+                            Toast.makeText(context, "Déconnexion réussie", Toast.LENGTH_SHORT).show()
                             onLogoutSuccess()
                         }
                     }
                     is AccountActionState.DeleteSuccess -> {
                         LaunchedEffect(Unit) {
+                            Toast.makeText(context, "Compte supprimé avec succès", Toast.LENGTH_SHORT).show()
                             onDeleteSuccess()
                         }
                     }
                     is AccountActionState.Error -> {
                         val errorMessage = (accountActionState as AccountActionState.Error).message
                         Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit
                 }

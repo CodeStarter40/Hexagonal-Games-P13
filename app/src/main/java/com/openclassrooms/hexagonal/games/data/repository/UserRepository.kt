@@ -1,5 +1,7 @@
 package com.openclassrooms.hexagonal.games.data.repository
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
@@ -20,6 +22,7 @@ class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth)
             if (task.isSuccessful) {
                 //compte supprimé avec succès
                 onComplete(true, null)
+                Log.d(TAG, "Compte utilisateur supprimé avec succès")
             } else {
                 //erreur lors de la suppression du compte
                 onComplete(false, task.exception?.message)

@@ -55,6 +55,7 @@ fun HomefeedScreen(
   onPostClick: (Post) -> Unit = {},
   onSettingsClick: () -> Unit = {},
   onFABClick: () -> Unit = {},
+  onAccountClick: () -> Unit = {},
 ) {
   var showMenu by rememberSaveable { mutableStateOf(false) }
   
@@ -72,6 +73,7 @@ fun HomefeedScreen(
               contentDescription = stringResource(id = R.string.contentDescription_more)
             )
           }
+          //menu deroulant
           DropdownMenu(
             expanded = showMenu,
             onDismissRequest = { showMenu = false }
@@ -84,6 +86,16 @@ fun HomefeedScreen(
                 Text(
                   text = stringResource(id = R.string.action_settings)
                 )
+              }
+            )
+            //ajout du bouton de compte
+            DropdownMenuItem(
+              onClick = {
+                onAccountClick()
+              },
+              text = {
+                Text(
+                  text = "Compte")
               }
             )
           }

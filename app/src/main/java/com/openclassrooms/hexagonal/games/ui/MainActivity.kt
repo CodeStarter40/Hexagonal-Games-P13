@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.openclassrooms.hexagonal.games.screen.Screen
+import com.openclassrooms.hexagonal.games.screen.account.AccountScreen
 import com.openclassrooms.hexagonal.games.screen.ad.AddScreen
 import com.openclassrooms.hexagonal.games.screen.homefeed.HomefeedScreen
 import com.openclassrooms.hexagonal.games.screen.login.LoginScreen
@@ -63,7 +64,27 @@ fun HexagonalGamesNavHost(navHostController: NavHostController) {
         },
         onFABClick = {
           navHostController.navigate(Screen.AddPost.route)
+        },
+        //add route vers accountScreen
+        onAccountClick = {
+          navHostController.navigate(Screen.Account.route)
         }
+      )
+    }
+    //add de la composante Route account
+    composable(route = Screen.Account.route) {
+      AccountScreen(
+        onLogoutSuccess = {
+          navHostController.navigate(Screen.Login.route) {
+            popUpTo(Screen.Homefeed.route) { inclusive = true }
+          }
+        },
+        onDeleteSuccess = {
+          navHostController.navigate(Screen.Login.route) {
+            popUpTo(Screen.Homefeed.route) { inclusive = true }
+          }
+        },
+        onBackClick = { navHostController.navigateUp() }
       )
     }
     composable(route = Screen.AddPost.route) {

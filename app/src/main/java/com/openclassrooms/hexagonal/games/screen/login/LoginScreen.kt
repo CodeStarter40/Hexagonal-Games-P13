@@ -61,7 +61,7 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            //bouton Se Connecter ou S'inscrire
+            //bouton se Connecter ou s'inscrire
             Button(
                 onClick = {
                     if (isSignUpMode) {
@@ -90,11 +90,12 @@ fun LoginScreen(
             when (uiState) {
                 is LoginUiState.Loading -> CircularProgressIndicator()
                 is LoginUiState.Success -> {
-                    // Redirection après succès
+                    //si succès, rediriger vers la page d'accueil
                     LaunchedEffect(Unit) {
                         onLoginSuccess()
                     }
                 }
+                //si error, afficher le message d'erreur
                 is LoginUiState.Error -> {
                     val errorMessage = (uiState as LoginUiState.Error).message
                     Text(text = errorMessage)

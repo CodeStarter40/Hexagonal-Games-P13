@@ -14,4 +14,8 @@ sealed class Screen(
 
   //add login
   data object Login : Screen("login")
+
+  //account page
+  data object Account : Screen("account")
+
 }

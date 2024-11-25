@@ -8,6 +8,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +30,7 @@ fun AccountScreen(
 ) {
 
     val context = LocalContext.current
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -60,7 +64,7 @@ fun AccountScreen(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.padding(16.dp)
             ) {
-                // Bouton pour se déconnecter
+                // Disconnect Button
                 Button(
                     onClick = { viewModel.logout() },
                     modifier = Modifier.fillMaxWidth()
@@ -69,9 +73,11 @@ fun AccountScreen(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Bouton pour supprimer le compte
+                // Delete button
                 Button(
-                    onClick = { viewModel.deleteAccount() },
+                    onClick = {
+                        showDialog = true
+                    },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Supprimer le compte")
@@ -101,4 +107,39 @@ fun AccountScreen(
             }
         }
     }
+    //action shooDialog
+    if (showDialog) {
+        showDeleteAccountConfirmationDialog(
+            onConfirm = {
+                viewModel.deleteAccount()
+                showDialog = false
+            },
+            onCancel = {
+                showDialog = false
+            }
+        )
+    }
+}
+
+@Composable
+fun showDeleteAccountConfirmationDialog(onConfirm: () -> Unit, onCancel: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = { onCancel() },
+        title = {
+            Text(text = "Supprimer le compte")
+        },
+        text = {
+            Text("Etes vous sûr de vouloir supprimer votre compte ? Cette action est irréversible !")
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text("Supprimer")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onCancel) {
+                Text("Annuler")
+            }
+        }
+    )
 }

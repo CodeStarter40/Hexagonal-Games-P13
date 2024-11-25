@@ -36,6 +36,8 @@ fun LoginScreen(
     //champs pour les entrées utilisateur
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
     var isSignUpMode by remember { mutableStateOf(false) } //gere le mode inscription ou connexion
 
     val context = LocalContext.current
@@ -62,8 +64,31 @@ fun LoginScreen(
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher),
                 contentDescription = "logo de l'application",
-                modifier = Modifier.size(280.dp)
+                modifier = Modifier
+                    .size(250.dp)
+                    .padding(bottom = 25.dp)
             )
+
+            if (isSignUpMode) {
+                //champs prenom affiché si en mode signup
+                TextField(
+                    value = firstName,
+                    onValueChange = { firstName = it },
+                    label = { Text("Prénom") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                TextField(
+                    value = lastName,
+                    onValueChange = { lastName = it },
+                    label = { Text(text = "Nom") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier.fillMaxWidth()
+                    )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             //Email
             TextField(
                 value = email,
@@ -90,7 +115,7 @@ fun LoginScreen(
                 onClick = {
                     keyboardController?.hide() //cache le clavier pour laisser apparaitre les champs d'information
                     if (isSignUpMode) {
-                        viewModel.signUp(email, password)
+                        viewModel.signUp(email, password, lastName, firstName)
                     } else {
                         viewModel.login(email, password)
                     }
@@ -123,7 +148,7 @@ fun LoginScreen(
                 }
                 //si error, afficher le message d'erreur
                 is LoginUiState.Error -> {
-                    Text(text = "Vérifiez vos informations ou veuillez vous incrire pour continuer",
+                    Text(text = "Vérifiez vos informations ou veuillez vous inscrire pour continuer",
                         color = MaterialTheme.colorScheme.error)
 
                 }

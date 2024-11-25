@@ -3,14 +3,19 @@ package com.openclassrooms.hexagonal.games.screen.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.openclassrooms.hexagonal.games.data.repository.LibraryRepository
+import com.openclassrooms.hexagonal.games.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor( private val firebaseAuth: FirebaseAuth) : ViewModel() {
+class LoginViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val uiState: StateFlow<LoginUiState> = _uiState
@@ -19,38 +24,31 @@ class LoginViewModel @Inject constructor( private val firebaseAuth: FirebaseAuth
     fun login(email:String,password:String) {
         _uiState.value = LoginUiState.Loading
         viewModelScope.launch {
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        _uiState.value = LoginUiState.Success
-                    } else {
-                        _uiState.value = LoginUiState.Error(task.exception?.message ?: "Unknown error")
-                    }
-                }
+            val result = userRepository.login(email, password)
+        if (result.isSuccess) {
+            _uiState.value = LoginUiState.Success
+        } else {
+            _uiState.value = LoginUiState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+            }
         }
     }
     //fun pour inscription firebase
-    fun signUp(email:String,password:String) {
+    fun signUp(email:String,password:String,lastName:String,firstName:String) {
         _uiState.value = LoginUiState.Loading
-        viewModelScope.launch {
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        _uiState.value = LoginUiState.Success
-                    } else {
-                        _uiState.value =
-                            LoginUiState.Error(task.exception?.message ?: "Unknown error")
-                    }
-                }
 
+        //vérifier si les champs lastname et firstname ne  sont pas empty
+        if (lastName.isEmpty() || firstName.isEmpty()) {
+            _uiState.value = LoginUiState.Error("Email and password cannot be empty")
+            return
+        }
+
+        viewModelScope.launch {
+            val result = userRepository.signUp(email, password, lastName, firstName)
+            if (result.isSuccess) {
+                _uiState.value = LoginUiState.Success
+            } else {
+                _uiState.value = LoginUiState.Error(result.exceptionOrNull()?.message ?: "Erreur lors de la création du compte")
+            }
         }
     }
-}
-
-//state possible pour l'interface user
-sealed class LoginUiState {
-    object Idle : LoginUiState()
-    object Loading : LoginUiState()
-    object Success : LoginUiState()
-    data class Error(val message: String) : LoginUiState()
 }

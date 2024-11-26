@@ -23,13 +23,14 @@ class AccountViewModel @Inject constructor( private val userRepository: UserRepo
 
     //suppression du compte
     fun deleteAccount() {
+        _accountActionState.value = AccountActionState.Loading
+
         viewModelScope.launch {
-            userRepository.deleteAccount { success, message ->
-                if (success) {
-                    _accountActionState.value = AccountActionState.DeleteSuccess
-                } else {
-                    _accountActionState.value = AccountActionState.Error(message ?: "Unknow error")
-                }
+            val result = userRepository.deleteAccount()
+            if (result.isSuccess) {
+                _accountActionState.value = AccountActionState.DeleteSuccess
+            } else {
+                _accountActionState.value = AccountActionState.Error(result.exceptionOrNull()?.message ?: "Erreur inconnue lors de la suppression du compte")
             }
         }
     }

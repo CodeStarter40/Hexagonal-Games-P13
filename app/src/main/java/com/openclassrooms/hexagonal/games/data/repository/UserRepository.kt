@@ -1,19 +1,15 @@
 package com.openclassrooms.hexagonal.games.data.repository
 
-import android.content.ContentValues.TAG
 import android.util.Log
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.userProfileChangeRequest
-import com.openclassrooms.hexagonal.games.screen.login.LoginUiState
-import kotlinx.coroutines.suspendCancellableCoroutine
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 //repository pour inclure les fun de gestion de compte comme la déconnexion et la suppression de compte via firebase
 
-class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth, private val libraryRepository: LibraryRepository) {
+class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth, private val libraryRepository: LibraryRepository,private val firestore: FirebaseFirestore) {
 
     //déconnexion du user actuel
     fun signOut() {
@@ -21,23 +17,25 @@ class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth,
     }
 
     //suppression du compte actuel
-    fun deleteAccount(onComplete: (Boolean, String?) -> Unit) {
-        val currentUser = firebaseAuth.currentUser
-        if (currentUser != null) {
-            currentUser.delete().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                //compte supprimé avec succès
-                onComplete(true, null)
-                Log.d(TAG, "Compte utilisateur supprimé avec succès")
-            } else {
-                //erreur lors de la suppression du compte
-                onComplete(false, task.exception?.message)
-            }
-        }
-    } else {
-        onComplete(false, "Aucun utilisateur connecté")
+    suspend fun deleteAccount(): Result<Unit> {
+        return try {
+            val currentUser = firebaseAuth.currentUser
+                ?: return Result.failure(Exception("Aucun utilisateur connecté"))
+
+            //duppression des données de l'utilisateur dans Firestore
+            deleteUserData(currentUser.uid)
+            Log.d("USERREPOSITORY-DELETEACCOUNT-FUN", "deleteUserData() exec")
+
+            //suppression du compte FirebaseAuth
+            currentUser.delete().await()
+            Log.d("USERREPOSITORY-DELETEACCOUNT-FUN", "deleteAccount() exec")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e("USERREPOSITORY-DELETEACCOUNT-FUN", "Erreur lors de la suppression du compte", e)
+            Result.failure(e)
         }
     }
+
     //login user
     suspend fun login(email: String, password: String): Result<Unit> {
         return try {
@@ -70,6 +68,16 @@ class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth,
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    private suspend fun deleteUserData(userId: String) {
+        try {
+            //suppression des données de l'utilisateur dans Firestore
+            firestore.collection("library").document(userId).delete().await()
+
+        } catch (e: Exception) {
+            throw Exception("Erreur de la suppression des données ${e.message}")
         }
     }
 }

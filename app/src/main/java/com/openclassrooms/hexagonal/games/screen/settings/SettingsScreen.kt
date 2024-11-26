@@ -1,6 +1,7 @@
 package com.openclassrooms.hexagonal.games.screen.settings
 
 import android.os.Build
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,12 +20,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -61,9 +64,7 @@ fun SettingsScreen(
     Settings(
       modifier = Modifier.padding(contentPadding),
       onNotificationDisabledClicked = { viewModel.disableNotifications() },
-      onNotificationEnabledClicked = {
-        viewModel.enableNotifications()
-      }
+      onNotificationEnabledClicked = { viewModel.enableNotifications() }
     )
   }
 }
@@ -75,6 +76,7 @@ private fun Settings(
   onNotificationEnabledClicked: () -> Unit,
   onNotificationDisabledClicked: () -> Unit
 ) {
+  val context = LocalContext.current
   val notificationsPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     rememberPermissionState(
       android.Manifest.permission.POST_NOTIFICATIONS
@@ -103,12 +105,15 @@ private fun Settings(
         }
         
         onNotificationEnabledClicked()
+        Toast.makeText(context, "Notifications enabled", Toast.LENGTH_SHORT).show()
       }
     ) {
       Text(text = stringResource(id = R.string.notification_enable))
     }
     Button(
-      onClick = { onNotificationDisabledClicked() }
+      onClick = {
+        onNotificationDisabledClicked()
+        Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()}
     ) {
       Text(text = stringResource(id = R.string.notification_disable))
     }

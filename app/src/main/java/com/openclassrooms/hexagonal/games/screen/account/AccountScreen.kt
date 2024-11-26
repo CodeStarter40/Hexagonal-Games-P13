@@ -93,7 +93,7 @@ fun AccountScreen(
                     }
                     is AccountActionState.DeleteSuccess -> {
                         LaunchedEffect(Unit) {
-                            Toast.makeText(context, "Compte supprimé avec succès", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Vos données et votre compte ont été supprimés avec succès", Toast.LENGTH_SHORT).show()
                             onDeleteSuccess()
                         }
                     }

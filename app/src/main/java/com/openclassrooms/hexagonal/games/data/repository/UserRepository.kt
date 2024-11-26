@@ -1,6 +1,7 @@
 package com.openclassrooms.hexagonal.games.data.repository
 
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore

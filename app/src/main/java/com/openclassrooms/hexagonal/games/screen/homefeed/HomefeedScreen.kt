@@ -152,8 +152,7 @@ private fun HomefeedCell(
 ) {
   ElevatedCard(
     modifier = Modifier.fillMaxWidth(),
-    onClick = {
-      onPostClick(post)
+    onClick = { onPostClick(post)
     }) {
     Column(
       modifier = Modifier.padding(8.dp),

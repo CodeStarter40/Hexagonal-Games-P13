@@ -1,7 +1,9 @@
 package com.openclassrooms.hexagonal.games.screen.ad
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.openclassrooms.hexagonal.games.data.repository.PostRepository
 import com.openclassrooms.hexagonal.games.domain.model.Post
 import com.openclassrooms.hexagonal.games.domain.model.User
@@ -65,7 +67,12 @@ class AddViewModel @Inject constructor(private val postRepository: PostRepositor
           description = formEvent.description
         )
       }
-      
+      //gestion de la maj de l'url de la photo
+      is FormEvent.PhotoUrlChanged -> {
+        _post.value = _post.value.copy(
+          photoUrl = formEvent.photoUrl
+        )
+      }
       is FormEvent.TitleChanged -> {
         _post.value = _post.value.copy(
           title = formEvent.title
@@ -80,12 +87,31 @@ class AddViewModel @Inject constructor(private val postRepository: PostRepositor
    * TODO: Implement logic to retrieve the current user.
    */
   fun addPost() {
-    //TODO : retrieve the current user
-    postRepository.addPost(
-      _post.value.copy(
-        author = User("1", "Gerry", "Ariella")
+    val firebaseAuth = FirebaseAuth.getInstance()
+    val firebaseUser = firebaseAuth.currentUser
+
+    if (firebaseUser != null) {
+
+      val currentUser = User(
+        id = firebaseUser.uid,
+        firstname = firebaseUser.displayName ?: "inconnu",
+        lastname = ""
       )
-    )
+
+      //new post with randomID and current user
+      val newPost = _post.value.copy(
+        id = UUID.randomUUID().toString(),
+        author = currentUser,
+        uid = firebaseUser.uid,
+        timestamp = System.currentTimeMillis() //horodatage
+      )
+
+      //appel de la fonction addPost du repository
+      postRepository.addPost(newPost)
+    } else {
+      //user non connecté
+      Log.e("AddViewModel", "Utilisateur non connecté - Impossible d'ajouter le post.")
+    }
   }
   
   /**

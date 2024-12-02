@@ -35,7 +35,7 @@ class SettingsViewModel : ViewModel() {
         } else {
           Log.d("Notifications", "Notifications not disabled", task.exception)
         }
-        }
+      }
   }
   
 }

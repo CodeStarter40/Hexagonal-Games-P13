@@ -82,6 +82,7 @@ dependencies {
   implementation("com.google.firebase:firebase-auth-ktx")
   //Firebase Firestore
   implementation("com.google.firebase:firebase-firestore-ktx")
+  implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
   //Firebase Messaging
   implementation("com.google.firebase:firebase-messaging")
 }

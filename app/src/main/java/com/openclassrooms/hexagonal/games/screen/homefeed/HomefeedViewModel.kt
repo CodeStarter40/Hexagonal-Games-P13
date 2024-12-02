@@ -31,10 +31,9 @@ class HomefeedViewModel @Inject constructor(private val postRepository: PostRepo
   
   init {
     viewModelScope.launch {
-      postRepository.posts.collect {
-        _posts.value = it
+      postRepository.posts.collect { postList ->
+        _posts.value = postList
       }
     }
   }
-  
 }

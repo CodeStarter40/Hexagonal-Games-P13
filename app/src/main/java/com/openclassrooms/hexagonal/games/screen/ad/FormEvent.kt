@@ -21,7 +21,14 @@ sealed class FormEvent {
    * @property description The new description of the form.
    */
   data class DescriptionChanged(val description: String) : FormEvent()
-  
+
+
+  /**
+   * Event triggered when the photo URL of the form is changed.
+   *
+   * @property photoUrl The new photo URL of the form.
+   */
+  data class PhotoUrlChanged(val photoUrl: String) : FormEvent()
 }
 
 /**

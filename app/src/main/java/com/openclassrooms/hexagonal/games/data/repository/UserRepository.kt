@@ -25,6 +25,7 @@ class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth,
 
             //duppression des données de l'utilisateur dans Firestore
             deleteUserData(currentUser.uid)
+            deletePosts(currentUser.uid)
             Log.d("USERREPOSITORY-DELETEACCOUNT-FUN", "deleteUserData() exec")
 
             //suppression du compte FirebaseAuth
@@ -74,11 +75,26 @@ class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth,
 
     private suspend fun deleteUserData(userId: String) {
         try {
-            //suppression des données de l'utilisateur dans Firestore
+            //suppression des données de l'utilisateur dans Firestore libray et posts
             firestore.collection("library").document(userId).delete().await()
 
         } catch (e: Exception) {
             throw Exception("Erreur de la suppression des données ${e.message}")
+        }
+    }
+
+    private suspend fun deletePosts(uid: String) {
+        try {
+            val querySnapshot = firestore.collection("posts")
+                .whereEqualTo("uid", uid)
+                .get()
+                .await()
+            for (document in querySnapshot.documents) {
+                document.reference.delete().await()
+            }
+            Log.d("USERREPOSITORY-DELETEPOSTS-FUN", "Les posts de l'utilisateur ont été supprimés")
+        } catch (e: Exception) {
+            throw Exception("Erreur de la suppression des posts ${e.message}")
         }
     }
 }

@@ -70,6 +70,8 @@ fun AddScreen(
       onTitleChanged = { viewModel.onAction(FormEvent.TitleChanged(it)) },
       description = post.description ?: "",
       onDescriptionChanged = { viewModel.onAction(FormEvent.DescriptionChanged(it)) },
+      photoUrl = post.photoUrl ?: "",
+      onPhotoUrlChanged = { viewModel.onAction(FormEvent.PhotoUrlChanged(it)) },
       onSaveClicked = {
         viewModel.addPost()
         onSaveClick()
@@ -85,6 +87,8 @@ private fun CreatePost(
   onTitleChanged: (String) -> Unit,
   description: String,
   onDescriptionChanged: (String) -> Unit,
+  photoUrl: String?,
+  onPhotoUrlChanged: (String) -> Unit,
   onSaveClicked: () -> Unit,
   error: FormError?
 ) {
@@ -97,7 +101,7 @@ private fun CreatePost(
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     Column(
-      modifier = modifier
+      modifier = Modifier
         .fillMaxSize()
         .weight(1f)
         .verticalScroll(scrollState)
@@ -119,6 +123,7 @@ private fun CreatePost(
           color = MaterialTheme.colorScheme.error,
         )
       }
+
       OutlinedTextField(
         modifier = Modifier
           .padding(top = 16.dp)
@@ -128,7 +133,18 @@ private fun CreatePost(
         label = { Text(stringResource(id = R.string.hint_description)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
       )
+
+      OutlinedTextField(
+        modifier = Modifier
+          .padding(top = 16.dp)
+          .fillMaxWidth(),
+        value = photoUrl ?: "",
+        onValueChange = { onPhotoUrlChanged(it)},
+        label = { Text(stringResource(id = R.string.hint_photo_url)) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+      )
     }
+
     Button(
       enabled = error == null,
       onClick = { onSaveClicked() }
@@ -152,6 +168,8 @@ private fun CreatePostPreview() {
       description = "description",
       onDescriptionChanged = { },
       onSaveClicked = { },
+      photoUrl = null,
+      onPhotoUrlChanged = { },
       error = null
     )
   }
@@ -168,6 +186,8 @@ private fun CreatePostErrorPreview() {
       description = "description",
       onDescriptionChanged = { },
       onSaveClicked = { },
+      photoUrl = null,
+      onPhotoUrlChanged = { },
       error = FormError.TitleError
     )
   }

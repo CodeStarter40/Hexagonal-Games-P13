@@ -3,7 +3,6 @@ package com.openclassrooms.hexagonal.games.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.openclassrooms.hexagonal.games.data.service.PostApi
-import com.openclassrooms.hexagonal.games.data.service.PostFakeApi
 import com.openclassrooms.hexagonal.games.data.service.PostImpFirebase
 import dagger.Module
 import dagger.Provides

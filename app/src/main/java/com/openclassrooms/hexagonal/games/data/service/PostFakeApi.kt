@@ -5,7 +5,7 @@ import com.openclassrooms.hexagonal.games.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-
+/*
 /**
  * This class implements the PostApi interface and provides a fake in-memory data source for Posts.
  * It's intended for testing purposes and simulates a real API.
@@ -71,3 +71,4 @@ class PostFakeApi : PostApi {
   }
   
 }
+*/

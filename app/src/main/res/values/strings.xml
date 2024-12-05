@@ -15,4 +15,5 @@
   <string name="contentDescription_notification_icon">Icone de notification</string>
   <string name="error_title">Title not valid</string>
   <string name="hint_photo_url">URL de la photo</string>
+  <string name="contentDescription_post_image">Image du post</string>
 </resources>

@@ -19,5 +19,11 @@ sealed class Screen(
   //account page
   data object Account : Screen("account")
 
-
+  //detail page
+  data object Detail : Screen(
+    route = "detail",
+    navArguments = listOf(navArgument("postId") {
+      nullable = false
+    })
+  )
 }

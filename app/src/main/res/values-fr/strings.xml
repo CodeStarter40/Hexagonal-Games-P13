@@ -14,4 +14,6 @@
   <string name="contentDescription_more">Plus</string>
   <string name="contentDescription_notification_icon">Notification icon</string>
   <string name="error_title">Titre non valide</string>
+  <string name="hint_photo_url">URL de la photo</string>
+  <string name="contentDescription_post_image">Image du post</string>
 </resources>

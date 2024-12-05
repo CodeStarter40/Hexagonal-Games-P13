@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.openclassrooms.hexagonal.games.screen.Screen
 import com.openclassrooms.hexagonal.games.screen.account.AccountScreen
 import com.openclassrooms.hexagonal.games.screen.ad.AddScreen
+import com.openclassrooms.hexagonal.games.screen.detail.DetailScreen
 import com.openclassrooms.hexagonal.games.screen.homefeed.HomefeedScreen
 import com.openclassrooms.hexagonal.games.screen.login.LoginScreen
 import com.openclassrooms.hexagonal.games.screen.settings.SettingsScreen
@@ -56,8 +57,8 @@ fun HexagonalGamesNavHost(navHostController: NavHostController) {
     }
     composable(route = Screen.Homefeed.route) {
       HomefeedScreen(
-        onPostClick = {
-          // TODO
+        onPostClick = { post ->
+          navHostController.navigate("detail/${post.id}")
         },
         onSettingsClick = {
           navHostController.navigate(Screen.Settings.route)
@@ -97,6 +98,12 @@ fun HexagonalGamesNavHost(navHostController: NavHostController) {
       SettingsScreen(
         onBackClick = { navHostController.navigateUp() }
       )
+    }
+    composable("detail/{postId}") { backStackEntry ->
+            //recup argument du postId
+      val postId = backStackEntry.arguments?.getString("postId")
+      requireNotNull(postId) { "postId param not found" }
+      DetailScreen(postId = postId, onBackClick = { navHostController.navigateUp() })
     }
   }
 }

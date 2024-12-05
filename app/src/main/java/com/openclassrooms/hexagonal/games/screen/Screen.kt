@@ -1,6 +1,7 @@
 package com.openclassrooms.hexagonal.games.screen
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.navArgument
 
 sealed class Screen(
   val route: String,
@@ -17,5 +18,6 @@ sealed class Screen(
 
   //account page
   data object Account : Screen("account")
+
 
 }

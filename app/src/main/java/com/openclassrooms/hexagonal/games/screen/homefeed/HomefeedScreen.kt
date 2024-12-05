@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
@@ -146,12 +147,12 @@ private fun HomefeedList(
 }
 
 @Composable
-private fun HomefeedCell(
-  post: Post,
-  onPostClick: (Post) -> Unit,
+private fun HomefeedCell(post: Post, onPostClick: (Post) -> Unit,
 ) {
   ElevatedCard(
-    modifier = Modifier.fillMaxWidth(),
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(top = 8.dp),
     onClick = { onPostClick(post)
     }) {
     Column(
@@ -166,6 +167,8 @@ private fun HomefeedCell(
         style = MaterialTheme.typography.titleSmall
       )
       Text(
+        modifier = Modifier
+          .padding(top = 12.dp),
         text = post.title,
         style = MaterialTheme.typography.titleLarge
       )
@@ -187,8 +190,12 @@ private fun HomefeedCell(
       }
       if (post.description.isNullOrEmpty() == false) {
         Text(
-          text = post.description,
-          style = MaterialTheme.typography.bodyMedium
+          modifier = Modifier
+            .padding(top = 12.dp),
+          text = (post.description),
+          style = MaterialTheme.typography.bodyMedium,
+          maxLines = 4,
+          overflow = TextOverflow.Ellipsis
         )
       }
     }

@@ -25,8 +25,8 @@ import coil.compose.AsyncImage
 import com.openclassrooms.hexagonal.games.R
 import com.openclassrooms.hexagonal.games.domain.model.Post
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
-
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,8 +76,25 @@ fun DetailContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(8.dp)
     ) {
+        //affiche le nom de l'auteur
+        post.author?.let {
+            Text(
+                text = "Auteur: ${it.firstname} ${it.lastname}",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            //convertion timestamp en date
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale.getDefault()).format(post.timestamp)
+
+            //affiche la date de parrution du post
+            Text(
+                text = "Publié le $dateFormat",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+        }
         //affiche le titre du post
         Text(
             text = post.title,

@@ -2,6 +2,9 @@ package com.openclassrooms.hexagonal.games.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.openclassrooms.hexagonal.games.data.repository.CommentRepository
+import com.openclassrooms.hexagonal.games.data.service.CommentApi
+import com.openclassrooms.hexagonal.games.data.service.CommentImpFirebase
 import com.openclassrooms.hexagonal.games.data.service.PostApi
 import com.openclassrooms.hexagonal.games.data.service.PostImpFirebase
 import dagger.Module
@@ -43,5 +46,17 @@ class AppModule {
   @Singleton
   fun provideFirebaseFirestore(): FirebaseFirestore {
     return FirebaseFirestore.getInstance()
+  }
+
+  @Provides
+  @Singleton
+  fun provideCommentApi(firestore: FirebaseFirestore): CommentApi {
+    return CommentImpFirebase(firestore)
+  }
+
+  @Provides
+  @Singleton
+  fun provideCommentRepository(commentApi: CommentApi): CommentRepository {
+    return CommentRepository(commentApi)
   }
 }

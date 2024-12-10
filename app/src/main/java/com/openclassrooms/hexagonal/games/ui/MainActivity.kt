@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.openclassrooms.hexagonal.games.screen.Screen
 import com.openclassrooms.hexagonal.games.screen.account.AccountScreen
 import com.openclassrooms.hexagonal.games.screen.ad.AddScreen
+import com.openclassrooms.hexagonal.games.screen.comment.CommentScreen
 import com.openclassrooms.hexagonal.games.screen.detail.DetailScreen
 import com.openclassrooms.hexagonal.games.screen.homefeed.HomefeedScreen
 import com.openclassrooms.hexagonal.games.screen.login.LoginScreen
@@ -103,7 +104,17 @@ fun HexagonalGamesNavHost(navHostController: NavHostController) {
             //recup argument du postId
       val postId = backStackEntry.arguments?.getString("postId")
       requireNotNull(postId) { "postId param not found" }
-      DetailScreen(postId = postId, onBackClick = { navHostController.navigateUp() })
+      DetailScreen(postId = postId, onBackClick = { navHostController.navigateUp() },
+        onNavigateToComment = { postId ->
+          navHostController.navigate("comment/$postId")
+        })
+    }
+    composable("comment/{postId}") { backStackEntry ->
+      val postId = backStackEntry.arguments?.getString("postId") ?: ""
+      CommentScreen(
+        postId = postId,
+        onBack = { navHostController.popBackStack() }
+      )
     }
   }
 }

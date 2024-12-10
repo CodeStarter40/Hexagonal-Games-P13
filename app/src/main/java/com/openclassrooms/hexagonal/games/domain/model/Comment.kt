@@ -11,9 +11,13 @@ import java.util.Date
 data class Comment(
     val id: String = "",
 
+    val postId: String = "",
+
     val authorName: String = "",
 
     val content: String = "",
+
+    val uid: String = "",
 
     @ServerTimestamp val timestamp: Date? = null
 )

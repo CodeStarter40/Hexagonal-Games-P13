@@ -25,6 +25,7 @@ class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth,
 
             //duppression des données de l'utilisateur dans Firestore
             deleteUserData(currentUser.uid)
+            deleteComments(currentUser.uid)
             deletePosts(currentUser.uid)
             Log.d("USERREPOSITORY-DELETEACCOUNT-FUN", "deleteUserData() exec")
 
@@ -97,4 +98,21 @@ class UserRepository @Inject constructor(private val firebaseAuth: FirebaseAuth,
             throw Exception("Erreur de la suppression des posts ${e.message}")
         }
     }
+
+    //suppression des comments de l'utilisateur lors de la suppression du compte
+    private suspend fun deleteComments(uid: String) {
+        try {
+            val querySnapshot = firestore.collection("comments")
+                .whereEqualTo("uid", uid)
+                .get()
+                .await()
+            for (document in querySnapshot.documents) {
+                document.reference.delete().await()
+            }
+            Log.d("USERREPOSITORY-DELETECOMMENTS-FUN", "Les commentaires de l'utilisateur ont été supprimés")
+        } catch (e: Exception) {
+            throw Exception("Erreur de la suppression des commentaires ${e.message}")
+            }
+    }
+
 }

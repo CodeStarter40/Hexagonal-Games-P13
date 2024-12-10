@@ -85,4 +85,7 @@ dependencies {
   implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
   //Firebase Messaging
   implementation("com.google.firebase:firebase-messaging")
+  //lifecycle
+  implementation(libs.lifecycle.runtime.compose.v261)
+
 }

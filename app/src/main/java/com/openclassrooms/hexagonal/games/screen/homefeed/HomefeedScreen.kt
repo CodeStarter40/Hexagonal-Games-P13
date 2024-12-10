@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
@@ -29,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -47,6 +49,8 @@ import com.openclassrooms.hexagonal.games.R
 import com.openclassrooms.hexagonal.games.domain.model.Post
 import com.openclassrooms.hexagonal.games.domain.model.User
 import com.openclassrooms.hexagonal.games.ui.theme.HexagonalGamesTheme
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -166,19 +170,30 @@ private fun HomefeedCell(post: Post, onPostClick: (Post) -> Unit,
         ),
         style = MaterialTheme.typography.titleSmall
       )
+      //convertion timestamp en date
+      val dateFormat = SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale.getDefault()).format(post.timestamp)
+
+      //affiche la date de parrution du post
+      Text(
+        text = "Publié le $dateFormat",
+        style = MaterialTheme.typography.bodySmall,
+        modifier = Modifier.padding(bottom = 4.dp)
+      )
+
       Text(
         modifier = Modifier
-          .padding(top = 12.dp),
+          .padding(top = 12.dp, bottom = 10.dp),
         text = post.title,
         style = MaterialTheme.typography.titleLarge
       )
       if (post.photoUrl.isNullOrEmpty() == false) {
         AsyncImage(
           modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = 8.dp,bottom = 8.dp)
             .fillMaxWidth()
             .heightIn(max = 200.dp)
-            .aspectRatio(ratio = 16 / 9f),
+            .aspectRatio(ratio = 16 / 9f)
+            .clip(RoundedCornerShape(10.dp)),
           model = post.photoUrl,
           imageLoader = LocalContext.current.imageLoader.newBuilder()
             .logger(DebugLogger())

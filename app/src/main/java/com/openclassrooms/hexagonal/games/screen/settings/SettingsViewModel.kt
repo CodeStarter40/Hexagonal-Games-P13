@@ -1,6 +1,10 @@
 package com.openclassrooms.hexagonal.games.screen.settings
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -8,6 +12,10 @@ import com.google.firebase.messaging.FirebaseMessaging
  * ViewModel responsible for managing user settings, specifically notification preferences.
  */
 class SettingsViewModel : ViewModel() {
+
+  private val _openNotificationSettingsEvent = MutableLiveData<Unit>()
+  val openNotificationSettingsEvent: LiveData<Unit> get () = _openNotificationSettingsEvent
+
   /**
    * Enables notifications for the application.
    * TODO: Implement the logic to enable notifications, likely involving interactions with a notification manager.
@@ -29,13 +37,13 @@ class SettingsViewModel : ViewModel() {
    */
   fun disableNotifications() {
     FirebaseMessaging.getInstance().unsubscribeFromTopic("notifications")
-      .addOnCompleteListener{ task ->
+      .addOnCompleteListener { task ->
         if (task.isSuccessful) {
           Log.d("Notifications", "Notifications disabled")
+          _openNotificationSettingsEvent.value = Unit
         } else {
           Log.d("Notifications", "Notifications not disabled", task.exception)
         }
       }
   }
-  
 }

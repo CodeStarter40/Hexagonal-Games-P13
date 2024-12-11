@@ -1,6 +1,7 @@
 package com.openclassrooms.hexagonal.games.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -8,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.openclassrooms.hexagonal.games.data.service.NetworkMonitor
 import com.openclassrooms.hexagonal.games.screen.Screen
 import com.openclassrooms.hexagonal.games.screen.account.AccountScreen
 import com.openclassrooms.hexagonal.games.screen.ad.AddScreen
@@ -25,19 +27,35 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-  
+
+  private lateinit var networkMonitor: NetworkMonitor
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    
+
+    networkMonitor = NetworkMonitor(
+      context = this,
+      onNetworkChange = { isConnected ->
+        //message toast en fonction de la connexion
+        val message = if (isConnected) {
+          "Connexion internet rétablie."
+        } else {
+          "Connexion internet perdue, veuillez vérifier."
+        }
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+      }
+    )
+    //networkmonitor added en tant que lifecycleobserver
+    lifecycle.addObserver(networkMonitor)
+
     setContent {
       val navController = rememberNavController()
-      
+
       HexagonalGamesTheme {
         HexagonalGamesNavHost(navHostController = navController)
       }
     }
   }
-  
 }
 
 //start route sur login

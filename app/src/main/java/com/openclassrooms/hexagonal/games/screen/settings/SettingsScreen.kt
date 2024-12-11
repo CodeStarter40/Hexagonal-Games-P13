@@ -1,5 +1,7 @@
 package com.openclassrooms.hexagonal.games.screen.settings
 
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,7 +30,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -41,6 +43,12 @@ fun SettingsScreen(
   viewModel: SettingsViewModel = hiltViewModel(),
   onBackClick: () -> Unit
 ) {
+  val context = LocalContext.current
+  val openNotificationSettingsEvent = viewModel.openNotificationSettingsEvent.observeAsState()
+  openNotificationSettingsEvent.value?.let {
+    openNotificationSettings(context)
+  }
+
   Scaffold(
     modifier = modifier,
     topBar = {
@@ -67,6 +75,13 @@ fun SettingsScreen(
       onNotificationEnabledClicked = { viewModel.enableNotifications() }
     )
   }
+}
+fun openNotificationSettings(context: Context) {
+  val intent = Intent().apply {
+    action = android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
+    putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, context.packageName)
+  }
+  context.startActivity(intent)
 }
 
 @OptIn(ExperimentalPermissionsApi::class)

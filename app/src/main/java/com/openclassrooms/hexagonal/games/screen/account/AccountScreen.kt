@@ -87,13 +87,13 @@ fun AccountScreen(
                 when (accountActionState) {
                     is AccountActionState.LogoutSuccess -> {
                         LaunchedEffect(Unit) {
-                            Toast.makeText(context, "Déconnexion réussie", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Déconnexion réussie", Toast.LENGTH_LONG).show()
                             onLogoutSuccess()
                         }
                     }
                     is AccountActionState.DeleteSuccess -> {
                         LaunchedEffect(Unit) {
-                            Toast.makeText(context, "Vos données et votre compte ont été supprimés avec succès", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Vos données et votre compte ont été supprimés avec succès", Toast.LENGTH_LONG).show()
                             onDeleteSuccess()
                         }
                     }

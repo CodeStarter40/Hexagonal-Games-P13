@@ -48,7 +48,8 @@ dependencies {
   //DI
   implementation(libs.hilt)
     implementation(libs.runtime.livedata)
-    ksp(libs.hilt.compiler)
+  implementation(libs.ui.test.junit4.android)
+  ksp(libs.hilt.compiler)
   implementation(libs.hilt.navigation.compose)
 
   //compose
@@ -88,5 +89,15 @@ dependencies {
   implementation("com.google.firebase:firebase-messaging")
   //lifecycle
   implementation(libs.lifecycle.runtime.compose.v261)
+
+  //test
+  testImplementation("junit:junit:4.13.2")
+  testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+  testImplementation ("androidx.arch.core:core-testing:2.1.0")
+  testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+  //logback
+  testImplementation("ch.qos.logback:logback-classic:1.4.8")
+  //mockk
+  testImplementation("io.mockk:mockk:1.13.5")
 
 }

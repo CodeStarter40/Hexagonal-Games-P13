@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
       onNetworkChange = { isConnected ->
         //message toast en fonction de la connexion
         val message = if (isConnected) {
-          "Connexion internet rétablie."
+          "Connexion internet établie."
         } else {
           "Connexion internet perdue, veuillez vérifier."
         }

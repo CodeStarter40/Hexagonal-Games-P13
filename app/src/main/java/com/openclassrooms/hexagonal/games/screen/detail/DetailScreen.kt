@@ -76,7 +76,7 @@ fun DetailScreen(
                     }
                 }
             },
-            sheetPeekHeight = 68.dp, //hauteur visible par défaut
+            sheetPeekHeight = 70.dp, //hauteur visible par défaut
             topBar = {
                 TopAppBar(
                     title = { Text("") },
@@ -251,7 +251,7 @@ fun CommentList(comments: List<Comment>) {
         } else {
             comments.forEach { comment ->
                 CommentItem(comment = comment)
-                Divider(modifier = Modifier.padding(vertical = 8.dp))
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
         }
     }

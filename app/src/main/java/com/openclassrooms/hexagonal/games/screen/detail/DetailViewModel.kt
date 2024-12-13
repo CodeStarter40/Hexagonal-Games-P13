@@ -1,6 +1,5 @@
 package com.openclassrooms.hexagonal.games.screen.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.hexagonal.games.data.repository.CommentRepository

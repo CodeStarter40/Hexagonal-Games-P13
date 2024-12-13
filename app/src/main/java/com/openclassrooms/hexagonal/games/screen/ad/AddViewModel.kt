@@ -22,7 +22,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddViewModel @Inject constructor(private val postRepository: PostRepository) : ViewModel() {
-  
+
   /**
    * Internal mutable state flow representing the current post being edited.
    */
@@ -36,14 +36,14 @@ class AddViewModel @Inject constructor(private val postRepository: PostRepositor
       author = null
     )
   )
-  
+
   /**
    * Public state flow representing the current post being edited.
    * This is immutable for consumers.
    */
   val post: StateFlow<Post>
     get() = _post
-  
+
   /**
    * StateFlow derived from the post that emits a FormError if the title is empty, null otherwise.
    */
@@ -52,9 +52,9 @@ class AddViewModel @Inject constructor(private val postRepository: PostRepositor
   }.stateIn(
     scope = viewModelScope,
     started = SharingStarted.WhileSubscribed(5_000),
-    initialValue = null,
+    initialValue = null
   )
-  
+
   /**
    * Handles form events like title and description changes.
    *
@@ -80,7 +80,7 @@ class AddViewModel @Inject constructor(private val postRepository: PostRepositor
       }
     }
   }
-  
+
   /**
    * Attempts to add the current post to the repository after setting the author.
    *
@@ -113,19 +113,21 @@ class AddViewModel @Inject constructor(private val postRepository: PostRepositor
       Log.e("AddViewModel", "Utilisateur non connecté - Impossible d'ajouter le post.")
     }
   }
-  
+
   /**
    * Verifies mandatory fields of the post
    * and returns a corresponding FormError if so.
    *
    * @return A FormError.TitleError if title is empty, null otherwise.
    */
-  private fun verifyPost(): FormError? {
-    return if (_post.value.title.isEmpty()) {
-      FormError.TitleError
-    } else {
-      null
+  fun verifyPost(): FormError? {
+    val title = _post.value.title
+    return when {
+      title.isBlank() -> FormError.TitleError
+      title.length < 3 -> FormError.TitleError
+
+      else -> null
     }
   }
-  
+
 }

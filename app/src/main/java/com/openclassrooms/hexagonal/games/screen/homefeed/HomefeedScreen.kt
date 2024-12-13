@@ -63,7 +63,7 @@ fun HomefeedScreen(
   onAccountClick: () -> Unit = {},
 ) {
   var showMenu by rememberSaveable { mutableStateOf(false) }
-  
+
   Scaffold(
     modifier = modifier,
     topBar = {
@@ -122,7 +122,7 @@ fun HomefeedScreen(
     }
   ) { contentPadding ->
     val posts by viewModel.posts.collectAsStateWithLifecycle()
-    
+
     HomefeedList(
       modifier = modifier.padding(contentPadding),
       posts = posts,
@@ -132,7 +132,7 @@ fun HomefeedScreen(
 }
 
 @Composable
-private fun HomefeedList(
+fun HomefeedList(
   modifier: Modifier = Modifier,
   posts: List<Post>,
   onPostClick: (Post) -> Unit,
@@ -151,7 +151,7 @@ private fun HomefeedList(
 }
 
 @Composable
-private fun HomefeedCell(post: Post, onPostClick: (Post) -> Unit,
+fun HomefeedCell(post: Post, onPostClick: (Post) -> Unit,
 ) {
   ElevatedCard(
     modifier = Modifier

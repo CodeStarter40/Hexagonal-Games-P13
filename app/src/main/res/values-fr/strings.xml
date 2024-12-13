@@ -16,4 +16,5 @@
   <string name="error_title">Titre non valide</string>
   <string name="hint_photo_url">URL de la photo</string>
   <string name="contentDescription_post_image">Image du post</string>
+  <string name="commentary_tag">Commentaires</string>"
 </resources>

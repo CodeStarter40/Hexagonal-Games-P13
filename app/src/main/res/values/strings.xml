@@ -19,7 +19,7 @@
   <string name="commentary_tag">Commentary</string>
   <string name="error_connexion">Verify your information or please register to continue</string>"
   <string name="connexion_on">Internet connection established.</string>
-  <string name="connexion_off">Internet connection established. Lost internet connection, please check.</string>
+  <string name="connexion_off">Lost internet connection, please check.</string>
   <string name="data_deleted">Your data and account have been successfully deleted.</string>
   <string name="disconnect_user">User as been disconnected successfully.</string>
   <string name="deletion_confirmation">Are you sure you want to delete your account? This action is irreversible!</string>
@@ -30,5 +30,13 @@
   <string name="connexion_failed">Verify your information or please sign up to continue!</string>
   <string name="no_account">No account ? Please register</string>
   <string name="already_account">Have an account ? Please connect</string>
-
+  <string name="connect_button">Connect</string>
+  <string name="register_button">Register</string>
+  <string name="password">Password</string>
+  <string name="email">Email</string>
+  <string name="lastname">Last name</string>
+  <string name="firstname">First name</string>
+  <string name="delete_button_account_page">Delete account</string>
+  <string name="logout_button_account_page">Logout</string>
+  <string name="account">Account</string>
 </resources>

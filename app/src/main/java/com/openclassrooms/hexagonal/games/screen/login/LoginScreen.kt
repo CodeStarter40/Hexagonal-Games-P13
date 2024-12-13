@@ -75,7 +75,7 @@ fun LoginScreen(
                 TextField(
                     value = firstName,
                     onValueChange = { firstName = it },
-                    label = { Text("Prénom") },
+                    label = { Text(text = stringResource(id = R.string.firstname)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -84,7 +84,7 @@ fun LoginScreen(
                 TextField(
                     value = lastName,
                     onValueChange = { lastName = it },
-                    label = { Text(text = "Nom") },
+                    label = { Text(text = stringResource(id = R.string.lastname)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     modifier = Modifier.fillMaxWidth()
                     )
@@ -94,7 +94,7 @@ fun LoginScreen(
             TextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text(text = stringResource(id = R.string.email)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -104,7 +104,7 @@ fun LoginScreen(
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Mot de passe") },
+                label = { Text(text = stringResource(id = R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier.fillMaxWidth()
@@ -123,7 +123,7 @@ fun LoginScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(if (isSignUpMode) "S'inscrire" else "Se connecter")
+                Text(if (isSignUpMode) { stringResource(id = R.string.register_button) } else { stringResource(id = R.string.connect_button) })
             }
 
             Spacer(modifier = Modifier.height(8.dp))

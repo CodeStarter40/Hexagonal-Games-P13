@@ -100,7 +100,7 @@ fun HomefeedScreen(
               },
               text = {
                 Text(
-                  text = "Compte")
+                  text = stringResource(id = R.string.account))
               }
             )
           }

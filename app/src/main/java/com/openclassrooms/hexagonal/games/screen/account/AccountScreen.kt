@@ -36,7 +36,7 @@ fun AccountScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Compte")
+                    Text(text = stringResource(id = R.string.account))
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -69,7 +69,7 @@ fun AccountScreen(
                     onClick = { viewModel.logout() },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Se déconnecter")
+                    Text(text=stringResource(id = R.string.logout_button_account_page))
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -80,7 +80,7 @@ fun AccountScreen(
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Supprimer le compte")
+                    Text(text= stringResource(id = R.string.delete_button_account_page))
                 }
 
                 //gestion des states et toast message

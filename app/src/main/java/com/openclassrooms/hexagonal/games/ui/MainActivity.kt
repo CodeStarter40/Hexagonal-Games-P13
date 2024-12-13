@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.openclassrooms.hexagonal.games.R
 import com.openclassrooms.hexagonal.games.data.service.NetworkMonitor
 import com.openclassrooms.hexagonal.games.screen.Screen
 import com.openclassrooms.hexagonal.games.screen.account.AccountScreen
@@ -38,9 +39,9 @@ class MainActivity : ComponentActivity() {
       onNetworkChange = { isConnected ->
         //message toast en fonction de la connexion
         val message = if (isConnected) {
-          "Connexion internet établie."
+          getString(R.string.connexion_on)
         } else {
-          "Connexion internet perdue, veuillez vérifier."
+          getString(R.string.connexion_off)
         }
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
       }

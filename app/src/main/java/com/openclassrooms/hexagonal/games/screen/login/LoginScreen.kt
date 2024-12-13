@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.openclassrooms.hexagonal.games.R
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun LoginScreen(
@@ -131,7 +132,7 @@ fun LoginScreen(
             TextButton(
                 onClick = { isSignUpMode = !isSignUpMode },
             ) {
-                Text(if (isSignUpMode) "Déjà un compte ? Connectez-vous" else "Pas de compte ? Inscrivez-vous")
+                Text(if (isSignUpMode) {stringResource(id = R.string.already_account)} else {stringResource(id = R.string.no_account)})
             }
 
             Spacer(modifier = Modifier.height(25.dp))
@@ -142,13 +143,13 @@ fun LoginScreen(
                 is LoginUiState.Success -> {
                     //si succès, rediriger vers la page d'accueil
                     LaunchedEffect(Unit) {
-                        Toast.makeText(context, "Connexion réussie", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,R.string.connexion_granted, Toast.LENGTH_SHORT).show()
                         onLoginSuccess()
                     }
                 }
                 //si error, afficher le message d'erreur
                 is LoginUiState.Error -> {
-                    Text(text = "Vérifiez vos informations ou veuillez vous inscrire pour continuer",
+                    Text(text = stringResource(id = R.string.connexion_failed),
                         color = MaterialTheme.colorScheme.error)
 
                 }

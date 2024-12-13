@@ -57,7 +57,7 @@ class AddViewModelTest {
 
     @Test
     fun verifyPostReturnsNoErrorForValidTitle() {
-        // Mettre à jour le titre dans le ViewModel
+
         viewModel.onAction(FormEvent.TitleChanged("Title")) //titre valide
 
         //verifyPost doit retourner null si le titre est valide

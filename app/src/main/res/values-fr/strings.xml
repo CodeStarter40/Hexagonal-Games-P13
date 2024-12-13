@@ -4,8 +4,8 @@
   <string name="homefeed_fragment_label">Home</string>
   <string name="add_fragment_label">Ajout d\'une publication</string>
   <string name="by">Par %1$s %2$s</string>
-  <string name="notification_enable">Activer les notifications</string>
-  <string name="notification_disable">Désactiver les notifications</string>
+  <string name="notification_enable">Notifications activées</string>
+  <string name="notification_disable">Notifications désactivées</string>
   <string name="description_button_add">Ajout</string>
   <string name="hint_title">Titre</string>
   <string name="hint_description">Description</string>
@@ -16,5 +16,19 @@
   <string name="error_title">Titre non valide</string>
   <string name="hint_photo_url">URL de la photo</string>
   <string name="contentDescription_post_image">Image du post</string>
-  <string name="commentary_tag">Commentaires</string>"
+  <string name="commentary_tag">Commentaires</string>
+  <string name="error_connexion">Vérifiez vos informations ou veuillez vous inscrire pour continuer</string>
+  <string name="connexion_on">Connexion internet établie.</string>
+  <string name="connexion_off">Connexion internet perdue, veuillez vérifier.</string>
+  <string name="data_deleted">Vos données et votre compte ont été supprimés avec succès.</string>
+  <string name="disconnect_user">Déconnexion réussie</string>
+  <string name="deletion_confirmation">Etes vous sûr de vouloir supprimer votre compte ? Cette action est irréversible !</string>
+  <string name="delete_account">Supprimer le compte</string>
+  <string name="cancel">Annuler</string>
+  <string name="confirm">Confirmer</string>
+  <string name="connexion_failed">Vérifiez vos informations ou veuillez vous inscrire pour continuer</string>
+  <string name="connexion_granted">Connexion réussie, bienvenue !</string>
+  <string name="no_account">Pas de compte ? Inscrivez-vous</string>
+  <string name="already_account">Déjà un compte ? Connectez-vous</string>
+
 </resources>

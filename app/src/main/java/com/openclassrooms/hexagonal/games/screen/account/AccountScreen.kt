@@ -87,13 +87,13 @@ fun AccountScreen(
                 when (accountActionState) {
                     is AccountActionState.LogoutSuccess -> {
                         LaunchedEffect(Unit) {
-                            Toast.makeText(context, "Déconnexion réussie", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context,R.string.disconnect_user, Toast.LENGTH_LONG).show()
                             onLogoutSuccess()
                         }
                     }
                     is AccountActionState.DeleteSuccess -> {
                         LaunchedEffect(Unit) {
-                            Toast.makeText(context, "Vos données et votre compte ont été supprimés avec succès", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context,R.string.data_deleted, Toast.LENGTH_LONG).show()
                             onDeleteSuccess()
                         }
                     }
@@ -126,19 +126,19 @@ fun showDeleteAccountConfirmationDialog(onConfirm: () -> Unit, onCancel: () -> U
     AlertDialog(
         onDismissRequest = { onCancel() },
         title = {
-            Text(text = "Supprimer le compte")
+            Text(text = stringResource(id = R.string.delete_account))
         },
         text = {
-            Text("Etes vous sûr de vouloir supprimer votre compte ? Cette action est irréversible !")
+            Text(text = stringResource(id = R.string.deletion_confirmation))
         },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text("Supprimer")
+                Text(text = stringResource(id = R.string.confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onCancel) {
-                Text("Annuler")
+                Text(text = stringResource(id = R.string.cancel))
             }
         }
     )
